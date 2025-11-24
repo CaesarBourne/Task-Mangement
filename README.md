@@ -3,7 +3,7 @@
 
 > A clean, modular, **Hexagonal Architecture (Ports & Adapters)** implementation of a **Task Management API** powered by **NestJS**, **TypeScript**, and **SQLite (TypeORM)**.
 >
-> Supports full CRUD for tasks, people management, assignment of people to tasks, and a maintainable, testable architecture ideal for production-grade services and take-home assessments.
+> Task management appSupports full CRUD for tasks, people management, assignment of people to tasks, and a maintainable, testable architecture 
 
 ---
 
