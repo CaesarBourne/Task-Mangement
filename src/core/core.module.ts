@@ -1,7 +1,5 @@
+// src/core/core.module.ts
 import { Module } from '@nestjs/common';
-import { TaskService } from './task/task.service';
 
-@Module({
-  providers: [TaskService]
-})
+@Module({})
 export class CoreModule {}

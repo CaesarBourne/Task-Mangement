@@ -1,1 +1,3 @@
-export class Tokens {}
+export const TASK_REPOSITORY = 'TASK_REPOSITORY';
+export const PERSON_REPOSITORY = 'PERSON_REPOSITORY';
+export const NOTIFICATION_PORT = 'NOTIFICATION_PORT';

@@ -1,29 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-// import { IPersonRepository } from '../../core/task/person.repository';
-// import { Person } from '../../core/task/person.entity';
+import { IPersonRepository } from '../../core/task/person.repository';
+import { Person } from '../../core/task/person.entity';
 import { PersonOrmEntity } from '../db/person.orm-entity';
 import { toDomainPerson } from './mappers';
 
 @Injectable()
-export class PersonRepositoryImpl  {
+export class PersonRepositoryImpl implements IPersonRepository {
   constructor(
     @InjectRepository(PersonOrmEntity)
     private readonly repo: Repository<PersonOrmEntity>,
   ) {}
 
-  async findById(id: number): Promise<any | null> {
+  async findById(id: number): Promise<Person | null> {
     const entity = await this.repo.findOne({ where: { id } });
     return entity ? toDomainPerson(entity) : null;
   }
 
-  async findAll(): Promise<any[]> {          // <--- NEW
+  async findAll(): Promise<Person[]> {          // <--- NEW
     const entities = await this.repo.find();
     return entities.map(toDomainPerson);
   }
 
-  async create(person: Omit<any, 'id'>): Promise<any> {
+  async create(person: Omit<Person, 'id'>): Promise<Person> {
     const entity = this.repo.create({
       name: person.name,
       email: person.email,

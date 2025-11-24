@@ -1,23 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-
-// import { anyOrmEntity } from '../db/any.orm-entity';
-// import { toDomainany } from './mappers';
+import {
+  ITaskRepository,
+  TaskFilter,
+} from '../../core/task/task.repository';
+import { Task } from '../../core/task/task.entity';
+import { TaskOrmEntity } from '../db/task.orm-entity';
+import { toDomainTask } from './mappers';
 
 @Injectable()
-export class anyRepositoryImpl  {
+export class TaskRepositoryImpl implements ITaskRepository {
   constructor(
-    private readonly repo: Repository<any>,
+    @InjectRepository(TaskOrmEntity)
+    private readonly repo: Repository<TaskOrmEntity>,
   ) {}
 
-  async findAll(filter?: any): Promise<any[]> {
+  async findAll(filter?: TaskFilter): Promise<Task[]> {
     const qb = this.repo
-      .createQueryBuilder('any')
-      .leftJoinAndSelect('any.assignees', 'assignee');
+      .createQueryBuilder('task')
+      .leftJoinAndSelect('task.assignees', 'assignee');
 
     if (filter?.status) {
-      qb.andWhere('any.status = :status', { status: filter.status });
+      qb.andWhere('task.status = :status', { status: filter.status });
     }
 
     if (filter?.assigneeId) {
@@ -27,63 +32,63 @@ export class anyRepositoryImpl  {
     }
 
     const entities = await qb.getMany();
-    return entities.map(toDomainany);
+    return entities.map(toDomainTask);
   }
 
-  async findById(id: number): Promise<any | null> {
+  async findById(id: number): Promise<Task | null> {
     const entity = await this.repo.findOne({
       where: { id },
       relations: ['assignees'],
     });
-    return entity ? toDomainany(entity) : null;
+    return entity ? toDomainTask(entity) : null;
   }
 
-  async create(any: Omit<any, 'id'>): Promise<any> {
+  async create(task: Omit<Task, 'id'>): Promise<Task> {
     const entity = this.repo.create({
-      title: any.title,
-      description: any.description,
-      status: any.status,
-      createdAt: any.createdAt,
-      updatedAt: any.updatedAt,
+      title: task.title,
+      description: task.description,
+      status: task.status,
+      createdAt: task.createdAt,
+      updatedAt: task.updatedAt,
     });
     const saved = await this.repo.save(entity);
     // no assignees on creation
     saved.assignees = [];
-    return toDomainany(saved);
+    return toDomainTask(saved);
   }
 
-  async update(any: any): Promise<any> {
-    await this.repo.update(any.id!, {
-      title: any.title,
-      description: any.description,
-      status: any.status,
-      updatedAt: any.updatedAt,
+  async update(task: Task): Promise<Task> {
+    await this.repo.update(task.id!, {
+      title: task.title,
+      description: task.description,
+      status: task.status,
+      updatedAt: task.updatedAt,
     });
     const updated = await this.repo.findOne({
-      where: { id: any.id! },
+      where: { id: task.id! },
       relations: ['assignees'],
     });
     if (!updated) {
-      throw new Error('any_NOT_FOUND_AFTER_UPDATE');
+      throw new Error('TASK_NOT_FOUND_AFTER_UPDATE');
     }
-    return toDomainany(updated);
+    return toDomainTask(updated);
   }
 
   async delete(id: number): Promise<void> {
     await this.repo.delete(id);
   }
 
-  async assignPerson(anyId: number, personId: number): Promise<void> {
-    const any = await this.repo.findOne({
-      where: { id: anyId },
+  async assignPerson(taskId: number, personId: number): Promise<void> {
+    const task = await this.repo.findOne({
+      where: { id: taskId },
       relations: ['assignees'],
     });
-    if (!any) throw new Error('any_NOT_FOUND');
+    if (!task) throw new Error('TASK_NOT_FOUND');
 
-    any.assignees = any.assignees || [];
-    if (!any.assignees.find((a) => a.id === personId)) {
-      any.assignees.push({ id: personId } as any);
-      await this.repo.save(any);
+    task.assignees = task.assignees || [];
+    if (!task.assignees.find((a) => a.id === personId)) {
+      task.assignees.push({ id: personId } as any);
+      await this.repo.save(task);
     }
   }
 }
