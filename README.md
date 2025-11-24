@@ -1,5 +1,4 @@
 
-<!-- ````markdown -->
 # Task Management API (NestJS + TypeScript + Hexagonal Architecture)
 
 > A clean, modular, **Hexagonal Architecture (Ports & Adapters)** implementation of a **Task Management API** powered by **NestJS**, **TypeScript**, and **SQLite (TypeORM)**.
@@ -13,11 +12,11 @@
 ### 1 Clone & Install
 
 ```bash
-git clone https://github.com/yourusername/task-service.git
+git clone https://github.com/CaesarBourne/Task-Mangement.git
 cd task-service
 npm install
 ```
-<!-- ```` -->
+
 
 ---
 
@@ -39,7 +38,7 @@ npm run build && npm run start:prod
 
 ### 3 Database
 
-SQLite is used for simplicity. The file is created automatically:
+SQLite 
 
 ```
 tasks.sqlite
@@ -75,7 +74,7 @@ No environment variables required.
              └────────────────────────────────────────────────────────────────────┘
 ```
 
-### Why Hexagonal?
+### Why  I used Hexagonal?
 
 - Clear separation of concerns
 - Framework-agnostic core
@@ -387,7 +386,7 @@ npm run start:prod
 
 # © License
 
-**MIT License © 2025 — Your Name**
+**MIT License © 2025 — Emmanuel Adeleke**
 
 ```
 
