@@ -1,0 +1,1009 @@
+{
+	"info": {
+		"_postman_id": "1de1c131-c4ca-4603-9c7c-b76b022ef082",
+		"name": "Task Service Hexagonal API",
+		"description": "Postman collection to test the hexagonal NestJS Task API (tasks + people + assignments).",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5371152",
+		"_collection_link": "https://warped-crater-670203.postman.co/workspace/My-Workspace~a61243a4-f208-4d08-89f6-b4b8437b81e3/collection/5371152-1de1c131-c4ca-4603-9c7c-b76b022ef082?action=share&source=collection_link&creator=5371152"
+	},
+	"item": [
+		{
+			"name": "00 - Create Person (for assignment)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 201 or 200\", function () {",
+							"  pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+							"});",
+							"",
+							"pm.test(\"Body has id\", function () {",
+							"  const json = pm.response.json();",
+							"  pm.expect(json).to.have.property('id');",
+							"  pm.collectionVariables.set('personId', json.id);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Emmanuel Adeleke\",\n  \"email\": \"emmanuel.adeleke@example.com\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/people",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"people"
+					]
+				},
+				"description": "Creates a person that will be used when assigning tasks. Stores id in {{personId}}."
+			},
+			"response": [
+				{
+					"name": "00 - Create Person (for assignment)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john.doe@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/people",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"people"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "57"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"39-B4elGyZEXqk9fzIWnFUsiYVsQEE\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 24 Nov 2025 07:02:01 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 1,\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@example.com\"\n}"
+				},
+				{
+					"name": "00 - Create Person (for assignment)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Emmanuel Adeleke\",\n  \"email\": \"emmanuel.adeleke@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/people",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"people"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "73"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"49-kaHMnXYvdWb3O/LiMUGfGAT3g+o\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 24 Nov 2025 11:58:35 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 1,\n    \"name\": \"Emmanuel Adeleke\",\n    \"email\": \"emmanuel.adeleke@example.com\"\n}"
+				}
+			]
+		},
+		{
+			"name": "01 - Create Task (valid)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 201 or 200\", function () {",
+							"  pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+							"});",
+							"",
+							"pm.test(\"Body has id\", function () {",
+							"  const json = pm.response.json();",
+							"  pm.expect(json).to.have.property('id');",
+							"  pm.collectionVariables.set('taskId', json.id);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Write API documentation\",\n  \"description\": \"Document the Task Service endpoints\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/tasks",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"tasks"
+					]
+				},
+				"description": "Creates a new task. On success, stores the task id in {{taskId}} for subsequent requests."
+			},
+			"response": [
+				{
+					"name": "01 - Create Task (valid)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Write API documentation\",\n  \"description\": \"Document the Task Service endpoints\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/tasks",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tasks"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "206"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"ce-5ICu/b0QMwbZlmI6PlJ8W4VdcSg\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 24 Nov 2025 07:01:55 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 4,\n    \"title\": \"Write API documentation\",\n    \"description\": \"Document the Task Service endpoints\",\n    \"status\": \"PENDING\",\n    \"createdAt\": \"2025-11-24T07:01:55.072Z\",\n    \"updatedAt\": \"2025-11-24T07:01:55.072Z\",\n    \"assignees\": []\n}"
+				}
+			]
+		},
+		{
+			"name": "02 - List Tasks (all)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 200\", function () {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"});",
+							"",
+							"pm.test(\"Response is array\", function () {",
+							"  const json = pm.response.json();",
+							"  pm.expect(json).to.be.an('array');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/tasks",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"tasks"
+					]
+				},
+				"description": "Returns all tasks."
+			},
+			"response": [
+				{
+					"name": "02 - List Tasks (all)",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/tasks",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tasks"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "415"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"19f-vntAafqQeFYCibXD1Xucxt8vEe4\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 24 Nov 2025 07:02:06 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 2,\n        \"title\": \"Write API documentation\",\n        \"description\": \"Document the Task Service endpoints\",\n        \"status\": \"PENDING\",\n        \"createdAt\": \"2025-11-23T23:03:01.164Z\",\n        \"updatedAt\": \"2025-11-23T23:03:01.164Z\",\n        \"assignees\": []\n    },\n    {\n        \"id\": 4,\n        \"title\": \"Write API documentation\",\n        \"description\": \"Document the Task Service endpoints\",\n        \"status\": \"PENDING\",\n        \"createdAt\": \"2025-11-24T07:01:55.072Z\",\n        \"updatedAt\": \"2025-11-24T07:01:55.072Z\",\n        \"assignees\": []\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "03 - List Tasks (filtered by status=PENDING)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 200\", function () {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"});",
+							"",
+							"pm.test(\"All tasks (if any) are PENDING\", function () {",
+							"  const json = pm.response.json();",
+							"  json.forEach(t => {",
+							"    pm.expect(t.status).to.eql('PENDING');",
+							"  });",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/tasks?status=PENDING",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"tasks"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "PENDING"
+						}
+					]
+				},
+				"description": "Returns tasks filtered by status (PENDING)."
+			},
+			"response": [
+				{
+					"name": "03 - List Tasks (filtered by status=PENDING)",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/tasks?status=PENDING",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tasks"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "PENDING"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "415"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"19f-vntAafqQeFYCibXD1Xucxt8vEe4\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 24 Nov 2025 07:02:14 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 2,\n        \"title\": \"Write API documentation\",\n        \"description\": \"Document the Task Service endpoints\",\n        \"status\": \"PENDING\",\n        \"createdAt\": \"2025-11-23T23:03:01.164Z\",\n        \"updatedAt\": \"2025-11-23T23:03:01.164Z\",\n        \"assignees\": []\n    },\n    {\n        \"id\": 4,\n        \"title\": \"Write API documentation\",\n        \"description\": \"Document the Task Service endpoints\",\n        \"status\": \"PENDING\",\n        \"createdAt\": \"2025-11-24T07:01:55.072Z\",\n        \"updatedAt\": \"2025-11-24T07:01:55.072Z\",\n        \"assignees\": []\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "04 - Update Task (valid)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 200\", function () {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"});",
+							"",
+							"pm.test(\"Status is updated to IN_PROGRESS\", function () {",
+							"  const json = pm.response.json();",
+							"  pm.expect(json.status).to.eql('IN_PROGRESS');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Write API documentation (updated)\",\n  \"status\": \"IN_PROGRESS\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/tasks/{{taskId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"tasks",
+						"{{taskId}}"
+					]
+				},
+				"description": "Updates the task created in step 01 using {{taskId}}. Changes title and status to IN_PROGRESS."
+			},
+			"response": [
+				{
+					"name": "04 - Update Task (valid)",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Write API documentation (updated)\",\n  \"status\": \"IN_PROGRESS\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/tasks/{{taskId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tasks",
+								"{{taskId}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "220"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"dc-SwhC6q+nIJ1OzxN8TkPsslCPBlo\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 24 Nov 2025 07:02:19 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 4,\n    \"title\": \"Write API documentation (updated)\",\n    \"description\": \"Document the Task Service endpoints\",\n    \"status\": \"IN_PROGRESS\",\n    \"createdAt\": \"2025-11-24T07:01:55.072Z\",\n    \"updatedAt\": \"2025-11-24T07:02:19.485Z\",\n    \"assignees\": []\n}"
+				}
+			]
+		},
+		{
+			"name": "05 - Update Task (not found - 404)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 404 (Task not found)\", function () {",
+							"  pm.expect(pm.response.code).to.eql(404);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"This task does not exist\",\n  \"status\": \"DONE\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/tasks/999999",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"tasks",
+						"999999"
+					]
+				},
+				"description": "Attempts to update a non-existing task (id 999999). Should return 404 according to controller logic."
+			},
+			"response": [
+				{
+					"name": "05 - Update Task (not found - 404)",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"This task does not exist\",\n  \"status\": \"DONE\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/tasks/999999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tasks",
+								"999999"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "45"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"2d-dQ4NuEEDy8pvtsfeNAYb+dPbWvs\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 24 Nov 2025 07:02:25 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 404,\n    \"message\": \"Task not found\"\n}"
+				}
+			]
+		},
+		{
+			"name": "06 - Assign Person to Task (valid)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 200\", function () {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"});",
+							"",
+							"pm.test(\"Task has assignees array\", function () {",
+							"  const json = pm.response.json();",
+							"  pm.expect(json).to.have.property('assignees');",
+							"  pm.expect(json.assignees).to.be.an('array');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"personId\": {{personId}}\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/tasks/{{taskId}}/assign",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"tasks",
+						"{{taskId}}",
+						"assign"
+					]
+				},
+				"description": "Assigns the person created in 00 ({{personId}}) to the task created in 01 ({{taskId}})."
+			},
+			"response": [
+				{
+					"name": "06 - Assign Person to Task (valid)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"personId\": {{personId}}\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/tasks/{{taskId}}/assign",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tasks",
+								"{{taskId}}",
+								"assign"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "277"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"115-H2GBDMUw0Q7AjN/moD6vm1bXyHE\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 24 Nov 2025 07:02:50 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 4,\n    \"title\": \"Write API documentation (updated)\",\n    \"description\": \"Document the Task Service endpoints\",\n    \"status\": \"IN_PROGRESS\",\n    \"createdAt\": \"2025-11-24T07:01:55.072Z\",\n    \"updatedAt\": \"2025-11-24T07:02:19.485Z\",\n    \"assignees\": [\n        {\n            \"id\": 1,\n            \"name\": \"John Doe\",\n            \"email\": \"john.doe@example.com\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "07 - Assign Person to Task (person not found - 400)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 400 (Person not found)\", function () {",
+							"  pm.expect(pm.response.code).to.eql(400);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"personId\": 999999\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/tasks/{{taskId}}/assign",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"tasks",
+						"{{taskId}}",
+						"assign"
+					]
+				},
+				"description": "Assigns a non-existing personId (999999). According to controller mapping, this should throw PERSON_NOT_FOUND -> 400 Bad Request."
+			},
+			"response": [
+				{
+					"name": "07 - Assign Person to Task (person not found - 400)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"personId\": 999999\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/tasks/{{taskId}}/assign",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tasks",
+								"{{taskId}}",
+								"assign"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "47"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"2f-jSSr/D1RUWldO2uGAPOPZ66KOgY\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 24 Nov 2025 07:03:01 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 400,\n    \"message\": \"Person not found\"\n}"
+				}
+			]
+		},
+		{
+			"name": "08 - Delete Task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 200\", function () {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"});",
+							"",
+							"pm.test(\"Response has success true\", function () {",
+							"  const json = pm.response.json();",
+							"  pm.expect(json).to.have.property('success', true);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/tasks/{{taskId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"tasks",
+						"{{taskId}}"
+					]
+				},
+				"description": "Deletes the task created in step 01 using {{taskId}}. Delete is idempotent; API returns { success: true } even if task is already missing."
+			},
+			"response": [
+				{
+					"name": "08 - Delete Task",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/tasks/{{taskId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tasks",
+								"{{taskId}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "16"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 24 Nov 2025 07:03:12 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": true\n}"
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000"
+		},
+		{
+			"key": "personId",
+			"value": ""
+		},
+		{
+			"key": "taskId",
+			"value": ""
+		}
+	]
+}

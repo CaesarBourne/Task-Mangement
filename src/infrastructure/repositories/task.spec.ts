@@ -31,7 +31,6 @@ describe('TaskService', () => {
       notifyAssignment: jest.fn(),
     };
 
-    // we bypass @Inject tokens here and manually construct for unit test
     service = new TaskService(taskRepo, personRepo, notificationPort);
   });
 

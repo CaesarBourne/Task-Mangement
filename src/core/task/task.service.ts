@@ -1,8 +1,6 @@
 import { Inject, Injectable, Optional } from '@nestjs/common';
-// import { ITaskRepository, TaskFilter } from './task.repository';
 import * as personRepository from './person.repository';
-// import { Task } from './task.entity';
-// import { TaskStatus } from './task-status.enum';
+
 import {
   TASK_REPOSITORY,
   PERSON_REPOSITORY,

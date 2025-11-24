@@ -1,6 +1,5 @@
 import { TaskStatus } from './task-status.enum';
 import { Task } from './task.entity';
-// import { TaskStatus } from './task-status.enum';
 
 export interface TaskFilter {
   status?: TaskStatus;
